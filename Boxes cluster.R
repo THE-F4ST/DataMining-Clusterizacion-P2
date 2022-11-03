@@ -21,10 +21,17 @@ plot(coords, col = data$color + 1, xlab = "X", ylab = "Y")
 
 # Se busca una clusterizacion optima
 Optimo <- DBSCAN_optimo(coords, data$color, from = 8, to = 12, by = 1)
-# Se obtiene la tabla de contingencia
-T_c <- TablaContingencia(RealClusters = data$color,
-                         EstClusters = Optimo$cluster)
+
 # Se grafican los clusters estimados
 plot(coords, col=Optimo$cluster, xlab = "X", ylab = "Y")
 
+T_c <- TablaContingencia(RealClusters = data$color,
+                         EstClusters = Optimo$cluster)
+
+# Conclusion
+cat("La medida F de la clusterizacion es: ", medida_f2(T_c), "\n")
+cat("La medida de entropia de la clusterizacion es: ",
+    medida_entropia(T_c, length(data$x)), "\n")
+
+# Ya quedó
 

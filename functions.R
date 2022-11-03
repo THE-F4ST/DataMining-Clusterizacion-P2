@@ -152,6 +152,69 @@ medida_f2 <- function(Tabla){
   return(suma)
 }
 
+#### MEDIDA BASADA EN ENTROPIA (ALPHA) ####
+# Recibe tabla de contingencia y cantidad de datos
+# regresa medida de entropia
+medida_entropia <- function(Tabla, n){
+  ECn <- length(Tabla[,1])
+  RCn <- length(Tabla[1,])
+  P_Matrix <- Prob_matrix(Tabla)
+  entropia <- vector("numeric", length = ECn)
+  E <- 0
+  
+  for(i in 1:ECn){
+    for(j in 1:RCn){
+      if(!is.infinite(log2(P_Matrix[i,j]))){
+        entropia[i] <- entropia[i] + P_Matrix[i,j]*log2(P_Matrix[i,j])
+      }
+    }
+  }
+  
+  # Se calcula la entropia condicional para la clusterizacion
+  for(i in 1:ECn){
+    E <- E + sum(Tabla[i,])*entropia[i]/n
+  }
+  
+  return(-E)
+}
+
+# Recibe una tabla de contingencia y la cantidad de datos
+# Regresa matriz de probabilidad de interseccion de clusters
+Prob_matrix <- function(Tabla){
+  row <- length(Tabla[,1])
+  col <- length(Tabla[1,])
+  P_M <- matrix(data=NA, nrow = row, ncol = col)
+  
+  for(i in 1:row){
+    for(j in 1:col){
+      P_M[i,j] <- Tabla[i,j]/sum(Tabla[i,])
+    }
+  }
+  
+  return(P_M)
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #### ----  BASURERO ---- ####
 #### MEDIDA F v.1 ###
 # Recibe una tabla de contingencia

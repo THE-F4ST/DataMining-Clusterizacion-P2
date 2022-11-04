@@ -64,9 +64,6 @@ isInVec <- function(x, vec){
 }
 
 
-
-
-
 #### Variacion de parametros DBSCAN ####
 DBSCAN_optimo <- function(Datos, TrueClusters, by = 1, from = 1, to = 10){
   # Quiero hacer una función que minimice el error de una tabla 
@@ -84,9 +81,10 @@ DBSCAN_optimo <- function(Datos, TrueClusters, by = 1, from = 1, to = 10){
   F_temp <- NA    # medida f temporal para criterio de seleccion
   
   cat(" eps | minPts\t F calculado\t F maximo\n")
-  for(i in seq(from = from, to = to, by = by)){
+  for(i in seq(from = from, to = to, by = 1)){
     for(j in seq(from = from, to = to, by = by)){
       C_temp <- dbscan(Datos, eps = i, minPts = j)
+      C_temp$cluster <- C_temp$cluster + 1
       Tabla_temp <- TablaContingencia(TrueClusters, C_temp$cluster)
       F_temp <- medida_f2(Tabla_temp)
       cat("(",i,",",j,")\t",F_temp,"\t", F_M, "\n")
@@ -193,12 +191,6 @@ Prob_matrix <- function(Tabla){
   
   return(P_M)
 } 
-
-
-
-
-
-
 
 
 
